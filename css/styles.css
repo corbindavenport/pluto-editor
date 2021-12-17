@@ -1,0 +1,8 @@
+.navbar {
+    -webkit-app-region: drag;
+    app-region: drag;
+}
+
+div[contenteditable="true"] {
+    outline: none;
+}
