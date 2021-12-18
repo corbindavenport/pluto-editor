@@ -3,6 +3,16 @@
     app-region: drag;
 }
 
+.pluto-bar {
+    background: #FFF;
+    line-height: 28px;
+    padding: 5px;
+}
+
 div[contenteditable="true"] {
     outline: none;
+}
+
+#import {
+    display: none;
 }

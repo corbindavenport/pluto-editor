@@ -26,7 +26,7 @@ self.addEventListener("fetch", function (event) {
     event.request.url.includes('http://' + self.location.hostname) ||
     event.request.url.includes('https://' + self.location.hostname) ||
     event.request.url.includes('https://' + self.location.hostname + '/v1/?')
-  if (event.request.url.includes('jsdelivr.net')) {
+  if (event.request.url.includes('jsdelivr.net') || event.request.url.includes('cdnjs.cloudflare.com')) {
     // Do nothing
   } else if (!blockedResources) {
     console.log('Skipped cache for URL:', event.request.url)
