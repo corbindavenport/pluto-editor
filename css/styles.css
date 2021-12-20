@@ -1,16 +1,24 @@
-.navbar {
-    -webkit-app-region: drag;
-    app-region: drag;
-}
-
-.pluto-bar {
+.pluto-top-bar {
     background: #FFF;
-    line-height: 28px;
-    padding: 5px;
+    padding: 0.5rem;
 }
 
-div[contenteditable="true"] {
+.pluto-top-bar .dropdown {
+    display: inline-block;
+}
+
+.pluto-bottom-bar {
+    margin-bottom: 0.5rem;
+}
+
+.pluto-bottom-bar .card {
+    padding: 0.3rem;
+}
+
+#pluto-editor {
     outline: none;
+    margin-top: 3.5rem;
+    margin-bottom: 3rem;
 }
 
 #import {
