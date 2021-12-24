@@ -24,7 +24,7 @@
 
 <body>
 
-    <div class="container fixed-top pluto-top-bar">
+    <div class="container-fluid pluto-top-bar border-bottom">
         <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" id="fileDropDown" data-bs-toggle="dropdown" aria-expanded="false">
                 File
@@ -49,20 +49,21 @@
         <!-- Add other buttons: https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand -->
     </div>
 
-    <div class="container fixed-bottom pluto-bottom-bar">
-        <div class="card">
+    <div class="container-fluid fixed-bottom pluto-bottom-bar border-top small">
             <div class="row">
-                <div class="col-12 col-sm-6 text-center">
+                <div class="col-12 col-sm-6 text-bold">
+                    <b><span id="pluto-file-name">text.md</span></b>
+                </div>
+                <div class="col-6 col-sm-3 text-center">
                     <b>Words:</b> <span id="pluto-word-count"></span>
                 </div>
-                <div class="col-12 col-sm-6 text-center">
+                <div class="col-6 col-sm-3 text-center">
                     <b>Characters:</b> <span id="pluto-char-count"></span>
                 </div>
             </div>
-        </div>
     </div>
 
-    <div id="pluto-editor" class="container" contenteditable="true" data-filename="text.md">
+    <div id="pluto-editor" class="container" contenteditable="true">
         <p>The Time Traveller (for so it will be convenient to speak of him) was
             expounding a recondite matter to us. His pale grey eyes shone and
             twinkled, and his usually pale face was flushed and animated. The fire

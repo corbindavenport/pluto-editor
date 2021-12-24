@@ -16,9 +16,11 @@ function getSelectedText() {
     return data
 }
 
-/* File Access API */
+/* Global variables */
 
 var fileHandle = null
+
+var fileName = 'new.md'
 
 /* File menu options */
 
@@ -27,8 +29,7 @@ document.querySelector('#new-file').addEventListener('click', function () {
     if (editor.textContent != '') {
         if (confirm('This will erase everything currently in the editor. Continue?')) {
             editor.innerHTML = ''
-            document.title = 'untitled.md'
-            editor.dataset.filename = 'untitled.md'
+            updateFileName
             editor.focus()
         }
     }
@@ -54,11 +55,10 @@ document.querySelector('#open-file').addEventListener('click', async function ()
         var file = await fileHandle[0].getFile()
         var text = await file.text()
         // Switch editor to file
-        document.title = file.name
-        document.getElementById('pluto-editor').dataset.filename = file.name
         var converter = new showdown.Converter()
         var html = converter.makeHtml(text)
         document.getElementById('pluto-editor').innerHTML = html
+        updateFileName(file.name, Boolean(false))
         updateWordCount()
 
     } else {
@@ -70,7 +70,6 @@ document.querySelector('#open-file').addEventListener('click', async function ()
 
 document.querySelector('#save-file').addEventListener('click', async function () {
     // Generate Markdown
-    var fileName = document.getElementById('pluto-editor').dataset.filename
     var converter = new showdown.Converter()
     var output = converter.makeMarkdown(document.getElementById('pluto-editor').innerHTML)
     var blob = new Blob([output], { type: 'text/markdown;charset=utf-8' })
@@ -79,9 +78,11 @@ document.querySelector('#save-file').addEventListener('click', async function ()
         var writable = await fileHandle[0].createWritable()
         await writable.write(blob)
         await writable.close()
+        updateFileName(fileName)
     } else {
         // Save file without File Access API
         saveAs(blob, fileName)
+        updateFileName(fileName)
     }
 })
 
@@ -97,13 +98,12 @@ document.querySelector('#pluto-editor-italic').addEventListener('click', functio
 
 document.querySelector('#import').addEventListener('change', function (el) {
     var file = el.target.files[0]
-    document.title = el.target.files[0].name
-    document.getElementById('pluto-editor').dataset.filename = el.target.files[0].name
     var reader = new FileReader()
     reader.onload = function () {
         var converter = new showdown.Converter()
         var html = converter.makeHtml(reader.result)
         document.getElementById('pluto-editor').innerHTML = html
+        updateFileName(el.target.files[0].name, Boolean(false))
         updateWordCount()
     }
     reader.onerror = function (event) {
@@ -125,6 +125,23 @@ function updateWordCount() {
 
 document.getElementById('pluto-editor').addEventListener('DOMCharacterDataModified', function () {
     updateWordCount()
+    updateFileName(fileName, new Boolean(true))
 })
 
 updateWordCount()
+
+/* File name updating */
+
+function updateFileName(newFileName, isModified=Boolean(false)) {
+    if (newFileName != fileName) {
+        fileName = newFileName
+        document.title = newFileName
+        document.getElementById('pluto-file-name').innerText = newFileName
+    } else if (isModified) {
+        document.title = fileName + '*'
+        document.getElementById('pluto-file-name').innerText = newFileName + '*'
+    } else {
+        document.title = fileName
+        document.getElementById('pluto-file-name').innerText = newFileName
+    }
+}

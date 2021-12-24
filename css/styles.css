@@ -1,4 +1,6 @@
 .pluto-top-bar {
+    position: sticky;
+    top: 0;
     background: #FFF;
     padding: 0.5rem;
 }
@@ -8,7 +10,8 @@
 }
 
 .pluto-bottom-bar {
-    margin-bottom: 0.5rem;
+    background: #FFF;
+    padding: 0.5rem;
 }
 
 .pluto-bottom-bar .card {
@@ -17,8 +20,8 @@
 
 #pluto-editor {
     outline: none;
-    margin-top: 3.5rem;
-    margin-bottom: 3rem;
+    margin-top: 2rem;
+    margin-bottom: 4rem;
 }
 
 #import {
