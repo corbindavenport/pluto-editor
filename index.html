@@ -29,17 +29,22 @@
                 File
             </button>
             <ul class="dropdown-menu" aria-labelledby="fileDropDown">
+                <li><a class="dropdown-item" href="#" id="new-file">New</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
                 <li><a class="dropdown-item" href="#" id="open-file">Open</a></li>
                 <li>
                     <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item" href="#">Save</a></li>
+                <li><a class="dropdown-item" href="#" id="save-file">Save</a></li>
             </ul>
         </div>
         <!-- Bold button -->
         <button class="btn btn-secondary" id="pluto-editor-bold"><b>B</b></button>
         <!-- Italic button -->
         <button class="btn btn-secondary" id="pluto-editor-italic"><i>I</i></button>
+        <!-- Add other buttons: https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand -->
     </div>
 
     <div class="container fixed-bottom pluto-bottom-bar">
@@ -55,7 +60,7 @@
         </div>
     </div>
 
-    <div id="pluto-editor" class="container" contenteditable="true">
+    <div id="pluto-editor" class="container" contenteditable="true" data-filename="text.md">
         <p>The Time Traveller (for so it will be convenient to speak of him) was
             expounding a recondite matter to us. His pale grey eyes shone and
             twinkled, and his usually pale face was flushed and animated. The fire
@@ -110,10 +115,11 @@
         <p>Text from <i>The Time Machine</i></p>
     </div>
 
-    <input type="file" id="import" accept="text/markdown">
+    <input type="file" id="import" accept="text/markdown, .md">
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js" integrity="sha512-L03kznCrNOfVxOUovR6ESfCz9Gfny7gihUX/huVbQB9zjODtYpxaVtIaAkpetoiyV2eqWbvxMH9fiSv5enX7bw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
     <script src="js/pluto.js"></script>
     <script src="js/register-sw.js"></script>
 </body>
