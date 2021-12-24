@@ -17,7 +17,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link href="css/styles.css" rel="stylesheet">
     <link href="css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
 </head>
@@ -35,18 +35,57 @@
                     <hr class="dropdown-divider">
                 </li>
                 <li><a class="dropdown-item" href="#" id="open-file">Open...</a></li>
+                <li><a class="dropdown-item" href="#" id="open-clipboard">Open from Clipboard</a></li>
                 <li>
                     <hr class="dropdown-divider">
                 </li>
                 <li><a class="dropdown-item" href="#" id="save-file">Save</a></li>
                 <li><a class="dropdown-item" href="#" id="save-file-as" style="display: none;">Save As...</a></li>
+                <li><a class="dropdown-item" href="#" id="save-clipboard">Save to Clipboard</a></li>
             </ul>
         </div>
         <!-- Bold button -->
-        <button class="btn btn-secondary" id="pluto-editor-bold"><b>B</b></button>
+        <button class="btn btn-secondary" id="pluto-editor-bold">
+            <i class="bi bi-type-bold"></i>
+        </button>
         <!-- Italic button -->
-        <button class="btn btn-secondary" id="pluto-editor-italic"><i>I</i></button>
-        <!-- Add other buttons: https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand -->
+        <button class="btn btn-secondary" id="pluto-editor-italic">
+            <i class="bi bi-type-italic"></i>
+        </button>
+        <!-- Strikethrough button -->
+        <button class="btn btn-secondary" id="pluto-editor-strike">
+            <i class="bi bi-type-strikethrough"></i>
+        </button>
+        <!-- Headers dropdown -->
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="headerDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-paragraph"></i>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="headerDropdown">
+                <li><a class="dropdown-item pluto-editor-header-btn" data-size="1">
+                    <h1>Header 1</h1>
+                </a></li>
+                <li><a class="dropdown-item pluto-editor-header-btn" data-size="2">
+                    <h2>Header 2</h2>
+                </a></li>
+                <li><a class="dropdown-item pluto-editor-header-btn" data-size="3">
+                    <h3>Header 3</h3>
+                </a></li>
+                <li><a class="dropdown-item pluto-editor-header-btn" data-size="4">
+                    <h4>Header 4</h4>
+                </a></li>
+                <li><a class="dropdown-item pluto-editor-header-btn" data-size="5">
+                    <h5>Header 5</h5>
+                </a></li>
+                <li><a class="dropdown-item pluto-editor-header-btn" data-size="6">
+                    <h6>Header 6</h6>
+                </a></li>
+                <li><a class="dropdown-item" id="pluto-editor-paragraph-btn">
+                    Paragraph (Default)
+                </a></li>
+            </ul>
+        </div>
+        <!-- About button -->
         <button class="btn btn-info" id="pluto-editor-about">About</button>
     </div>
 

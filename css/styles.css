@@ -2,11 +2,16 @@
     position: sticky;
     top: 0;
     background: #FFF;
-    padding: 0.5rem;
+    padding: 0 0.5rem 0.5rem 0.5rem;
 }
 
-.pluto-top-bar .dropdown {
+.pluto-top-bar > *, .pluto-top-bar > .dropdown > button {
+    margin-top: 0.3rem;
     display: inline-block;
+}
+
+.pluto-editor-header-btn * {
+    margin: 0;
 }
 
 .pluto-bottom-bar {
@@ -16,6 +21,10 @@
 
 .pluto-bottom-bar .card {
     padding: 0.3rem;
+}
+
+a {
+    cursor: pointer;
 }
 
 #pluto-editor {
