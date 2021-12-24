@@ -126,6 +126,10 @@ document.querySelector('#pluto-editor-italic').addEventListener('click', functio
     document.execCommand('italic')
 })
 
+document.querySelector('#pluto-editor-about').addEventListener('click', function () {
+    window.open('https://github.com/corbindavenport/pluto-editor', '_blank')
+})
+
 document.querySelector('#import').addEventListener('change', function (el) {
     var file = el.target.files[0]
     var reader = new FileReader()
