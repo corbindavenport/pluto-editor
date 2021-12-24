@@ -16,6 +16,10 @@ function getSelectedText() {
     return data
 }
 
+/* File Access API */
+
+var fileHandle = null
+
 /* File menu options */
 
 document.querySelector('#new-file').addEventListener('click', function () {
@@ -30,18 +34,55 @@ document.querySelector('#new-file').addEventListener('click', function () {
     }
 })
 
-document.querySelector('#open-file').addEventListener('click', function () {
-    document.querySelector('#import').click()
+document.querySelector('#open-file').addEventListener('click', async function () {
+    if ('showDirectoryPicker' in window) {
+        // Pick file
+        var pickerOpts = {
+            types: [
+                {
+                    description: 'Markdown file',
+                    accept: {
+                        'text/markdown': ['.md']
+                    }
+                },
+            ],
+            excludeAcceptAllOption: true,
+            multiple: false
+        }
+        fileHandle = await window.showOpenFilePicker(pickerOpts)
+        // Read file
+        var file = await fileHandle[0].getFile()
+        var text = await file.text()
+        // Switch editor to file
+        document.title = file.name
+        document.getElementById('pluto-editor').dataset.filename = file.name
+        var converter = new showdown.Converter()
+        var html = converter.makeHtml(text)
+        document.getElementById('pluto-editor').innerHTML = html
+        updateWordCount()
+
+    } else {
+        // Use legacy file picker
+        alert('Your browser does not support the File Access API, so your changes will be saved as a new file in your Downloads folder.')
+        document.querySelector('#import').click()
+    }
 })
 
-document.querySelector('#save-file').addEventListener('click', function () {
+document.querySelector('#save-file').addEventListener('click', async function () {
     // Generate Markdown
     var fileName = document.getElementById('pluto-editor').dataset.filename
     var converter = new showdown.Converter()
     var output = converter.makeMarkdown(document.getElementById('pluto-editor').innerHTML)
-    // Save file
     var blob = new Blob([output], { type: 'text/markdown;charset=utf-8' })
-    saveAs(blob, fileName)
+    if (('showDirectoryPicker' in window) && (fileHandle != null)) {
+        // Save file with File Access API 
+        var writable = await fileHandle[0].createWritable()
+        await writable.write(blob)
+        await writable.close()
+    } else {
+        // Save file without File Access API
+        saveAs(blob, fileName)
+    }
 })
 
 /* Editor buttons */
