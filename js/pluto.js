@@ -20,16 +20,17 @@ function getSelectedText() {
 
 var globalFileHandle = null
 
-var globalFileName = 'new.md'
+var globalFileName = 'text.md'
 
 /* File menu options */
 
 document.querySelector('#new-file').addEventListener('click', function () {
     var editor = document.getElementById('pluto-editor')
     if (editor.textContent != '') {
-        if (confirm('This will erase everything currently in the editor. Continue?')) {
+        if (confirm('Your unsaved changes will be lost.')) {
             editor.innerHTML = ''
-            updateFileName
+            updateFileName('text.md')
+            globalFileHandle = null
             editor.focus()
         }
     }
