@@ -18,9 +18,9 @@ function getSelectedText() {
 
 /* Global variables */
 
-var fileHandle = null
+var globalFileHandle = null
 
-var fileName = 'new.md'
+var globalFileName = 'new.md'
 
 /* File menu options */
 
@@ -34,6 +34,10 @@ document.querySelector('#new-file').addEventListener('click', function () {
         }
     }
 })
+
+if ('showDirectoryPicker' in window) {
+    document.getElementById('save-file-as').style.display = 'block'
+}
 
 document.querySelector('#open-file').addEventListener('click', async function () {
     if ('showDirectoryPicker' in window) {
@@ -50,9 +54,9 @@ document.querySelector('#open-file').addEventListener('click', async function ()
             excludeAcceptAllOption: true,
             multiple: false
         }
-        fileHandle = await window.showOpenFilePicker(pickerOpts)
+        globalFileHandle = await window.showOpenFilePicker(pickerOpts)[0]
         // Read file
-        var file = await fileHandle[0].getFile()
+        var file = await globalFileHandle.getFile()
         var text = await file.text()
         // Switch editor to file
         var converter = new showdown.Converter()
@@ -63,7 +67,6 @@ document.querySelector('#open-file').addEventListener('click', async function ()
 
     } else {
         // Use legacy file picker
-        alert('Your browser does not support the File Access API, so your changes will be saved as a new file in your Downloads folder.')
         document.querySelector('#import').click()
     }
 })
@@ -73,17 +76,43 @@ document.querySelector('#save-file').addEventListener('click', async function ()
     var converter = new showdown.Converter()
     var output = converter.makeMarkdown(document.getElementById('pluto-editor').innerHTML)
     var blob = new Blob([output], { type: 'text/markdown;charset=utf-8' })
-    if (('showDirectoryPicker' in window) && (fileHandle != null)) {
+    if (('showDirectoryPicker' in window) && (globalFileHandle != null)) {
         // Save file with File Access API 
-        var writable = await fileHandle[0].createWritable()
+        var writable = await globalFileHandle.createWritable()
         await writable.write(blob)
         await writable.close()
-        updateFileName(fileName)
+        updateFileName(globalFileName)
     } else {
         // Save file without File Access API
-        saveAs(blob, fileName)
-        updateFileName(fileName)
+        alert('Your browser does not support the File Access API, so your changes will be saved as a new file in your Downloads folder.')
+        saveAs(blob, globalFileName)
+        updateFileName(globalFileName)
     }
+})
+
+document.querySelector('#save-file-as').addEventListener('click', async function () {
+    // This option is only visible to browsers with the File Access API, so we don't need a fallback
+    const options = {
+        types: [
+            {
+                description: 'Markdown file',
+                accept: {
+                    'text/markdown': ['.md']
+                }
+            }
+        ]
+    }
+    // Change file in editor to new file
+    globalFileHandle = await window.showSaveFilePicker(options)
+    updateFileName(globalFileHandle.name)
+    // Convert to Markdown
+    var converter = new showdown.Converter()
+    var output = converter.makeMarkdown(document.getElementById('pluto-editor').innerHTML)
+    var blob = new Blob([output], { type: 'text/markdown;charset=utf-8' })
+    // Write changes to file
+    var writable = await globalFileHandle.createWritable()
+    await writable.write(blob)
+    await writable.close()
 })
 
 /* Editor buttons */
@@ -115,33 +144,33 @@ document.querySelector('#import').addEventListener('change', function (el) {
 /* Word count updating */
 
 function updateWordCount() {
-    // Update word count
-    var wordCount = document.getElementById('pluto-editor').textContent.trim().split(/\s+/).length
-    document.getElementById('pluto-word-count').innerText = wordCount
-    // Update character count
-    var wordCount = document.getElementById('pluto-editor').textContent.trim().length
-    document.getElementById('pluto-char-count').innerText = wordCount
-}
+        // Update word count
+        var wordCount = document.getElementById('pluto-editor').textContent.trim().split(/\s+/).length
+        document.getElementById('pluto-word-count').innerText = wordCount
+        // Update character count
+        var wordCount = document.getElementById('pluto-editor').textContent.trim().length
+        document.getElementById('pluto-char-count').innerText = wordCount
+    }
 
 document.getElementById('pluto-editor').addEventListener('DOMCharacterDataModified', function () {
-    updateWordCount()
-    updateFileName(fileName, new Boolean(true))
-})
+        updateWordCount()
+        updateFileName(globalFileName, new Boolean(true))
+    })
 
 updateWordCount()
 
 /* File name updating */
 
-function updateFileName(newFileName, isModified=Boolean(false)) {
-    if (newFileName != fileName) {
-        fileName = newFileName
-        document.title = newFileName
-        document.getElementById('pluto-file-name').innerText = newFileName
-    } else if (isModified) {
-        document.title = fileName + '*'
-        document.getElementById('pluto-file-name').innerText = newFileName + '*'
-    } else {
-        document.title = fileName
-        document.getElementById('pluto-file-name').innerText = newFileName
+function updateFileName(newglobalFileName, isModified = Boolean(false)) {
+        if (newglobalFileName != globalFileName) {
+            globalFileName = newglobalFileName
+            document.title = newglobalFileName
+            document.getElementById('pluto-file-name').innerText = newglobalFileName
+        } else if (isModified) {
+            document.title = globalFileName + '*'
+            document.getElementById('pluto-file-name').innerText = newglobalFileName + '*'
+        } else {
+            document.title = globalFileName
+            document.getElementById('pluto-file-name').innerText = newglobalFileName
+        }
     }
-}
