@@ -29,9 +29,17 @@
         "action": "/",
         "method": "GET",
         "params": {
-          "title": "title",
-          "text": "text",
-          "url": "url"
+            "title": "title",
+            "text": "text",
+            "url": "url"
         }
-      }
+    },
+    "file_handlers": [
+          {
+            "action": "/",
+            "accept": {
+              "text/markdown": [".md"]
+            }
+        }
+    ]
 }

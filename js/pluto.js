@@ -19,16 +19,49 @@ function getSelectedText() {
 
 /* Global variables */
 
+var globalEditor = document.getElementById('pluto-editor')
+
 var globalFileHandle = null
 
 var globalFileName = 'text.md'
 
-/* File menu options */
+/* File menu options and functions */
+
+async function openFile(file, fileName=null) {
+    // Prompt user that they will lose changes
+    if (globalEditor.textContent != '') {
+        if (confirm('Your unsaved changes will be lost. Do you want to continue?')) {
+            // Do nothing
+        } else {
+            return
+        }
+    }
+    // Read the file
+    if (typeof file === 'string') {
+        // This is from the clipboard
+        var text = file
+        updateFileName('text.md', Boolean(false))
+    } else if ('kind' in file) {
+        // This is a File Handler object for the File System APO
+        globalFileHandle = file
+        var data = await globalFileHandle.getFile()
+        var text = await data.text()
+        updateFileName(data.name, Boolean(false))
+    } else if ('result' in file) {
+        // This is a legacy file from the <input> picker
+        var text = file.result
+        updateFileName(fileName, Boolean(false))
+    }
+    // Switch editor to file
+    var converter = new showdown.Converter()
+    var html = converter.makeHtml(text)
+    document.getElementById('pluto-editor').innerHTML = html
+    updateWordCount()
+}
 
 document.querySelector('#new-file').addEventListener('click', function () {
-    var editor = document.getElementById('pluto-editor')
-    if (editor.textContent != '') {
-        if (confirm('Your unsaved changes will be lost.')) {
+    if (globalEditor.textContent != '') {
+        if (confirm('Your unsaved changes will be lost. Do you want to continue?')) {
             editor.innerHTML = ''
             updateFileName('text.md')
             globalFileHandle = null
@@ -56,16 +89,9 @@ document.querySelector('#open-file').addEventListener('click', async function ()
             excludeAcceptAllOption: true,
             multiple: false
         }
-        globalFileHandle = await window.showOpenFilePicker(pickerOpts)[0]
-        // Read file
-        var file = await globalFileHandle.getFile()
-        var text = await file.text()
-        // Switch editor to file
-        var converter = new showdown.Converter()
-        var html = converter.makeHtml(text)
-        document.getElementById('pluto-editor').innerHTML = html
-        updateFileName(file.name, Boolean(false))
-        updateWordCount()
+        var picker = await window.showOpenFilePicker(pickerOpts)
+        var fileData = picker[0]
+        openFile(fileData)
 
     } else {
         // Use legacy file picker
@@ -74,14 +100,8 @@ document.querySelector('#open-file').addEventListener('click', async function ()
 })
 
 document.querySelector('#open-clipboard').addEventListener('click', async function () {
-    // Read from clipboard
     var clipText = await navigator.clipboard.readText()
-    // Switch editor to new file
-    var converter = new showdown.Converter()
-    var html = converter.makeHtml(clipText)
-    document.getElementById('pluto-editor').innerHTML = html
-    updateFileName('clipboard.md', Boolean(false))
-    updateWordCount()
+    openFile(clipText)
 })
 
 document.querySelector('#save-file').addEventListener('click', async function () {
@@ -142,6 +162,18 @@ document.querySelector('#save-clipboard').addEventListener('click', async functi
     })
 })
 
+document.querySelector('#import').addEventListener('change', function (el) {
+    var file = el.target.files[0]
+    var reader = new FileReader()
+    reader.onload = function () {
+        openFile(reader, file.name)
+    }
+    reader.onerror = function (event) {
+        alert('Error: ' + event)
+    }
+    reader.readAsText(file)
+})
+
 /* Editor buttons */
 
 document.querySelector('#pluto-editor-bold').addEventListener('click', function () {
@@ -150,10 +182,6 @@ document.querySelector('#pluto-editor-bold').addEventListener('click', function 
 
 document.querySelector('#pluto-editor-italic').addEventListener('click', function () {
     document.execCommand('italic')
-})
-
-document.querySelector('#pluto-editor-strike').addEventListener('click', function () {
-    document.execCommand('strikeThrough')
 })
 
 document.querySelectorAll('.pluto-editor-header-btn').forEach(function (el) {
@@ -183,22 +211,6 @@ document.querySelectorAll('button, .dropdown-item').forEach(function (el) {
 
 document.querySelector('#pluto-editor-about').addEventListener('click', function () {
     window.open('https://github.com/corbindavenport/pluto-editor', '_blank')
-})
-
-document.querySelector('#import').addEventListener('change', function (el) {
-    var file = el.target.files[0]
-    var reader = new FileReader()
-    reader.onload = function () {
-        var converter = new showdown.Converter()
-        var html = converter.makeHtml(reader.result)
-        document.getElementById('pluto-editor').innerHTML = html
-        updateFileName(el.target.files[0].name, Boolean(false))
-        updateWordCount()
-    }
-    reader.onerror = function (event) {
-        alert('Error: ' + event)
-    }
-    reader.readAsText(file)
 })
 
 /* Word count updating */
@@ -234,3 +246,28 @@ function updateFileName(newglobalFileName, isModified = Boolean(false)) {
         document.getElementById('pluto-file-name').innerText = newglobalFileName
     }
 }
+
+/* File Handling API support */
+
+/*
+if ('launchQueue' in window && 'files' in LaunchParams.prototype) {
+    launchQueue.setConsumer((launchParams) => {
+      // Nothing to do when the queue is empty.
+      if (!launchParams.files.length) {
+        return;
+      }
+      for (const fileHandle of launchParams.files) {
+        // Read file
+        globalFileHandle = launchParams.files[0]
+        var file = await globalFileHandle.getFile()
+        var text = await file.text()
+        // Switch editor to file
+        var converter = new showdown.Converter()
+        var html = converter.makeHtml(text)
+        document.getElementById('pluto-editor').innerHTML = html
+        updateFileName(file.name, Boolean(false))
+        updateWordCount()
+      }
+    });
+  }
+  */
