@@ -30,7 +30,7 @@ var globalFileName = 'text.md'
 async function saveFile(fileSaveAs = false) {
     // Generate Markdown
     var converter = new showdown.Converter()
-    var output = converter.makeMarkdown(document.getElementById('pluto-editor').innerHTML)
+    var output = converter.makeMarkdown(globalEditor.innerHTML)
     var blob = new Blob([output], { type: 'text/markdown;charset=utf-8' })
     if (('showDirectoryPicker' in window) && (globalFileHandle != null) && (fileSaveAs === false)) {
         // Update file with File Access API 
@@ -55,7 +55,7 @@ async function saveFile(fileSaveAs = false) {
         updateFileName(globalFileHandle.name)
         // Convert to Markdown
         var converter = new showdown.Converter()
-        var output = converter.makeMarkdown(document.getElementById('pluto-editor').innerHTML)
+        var output = converter.makeMarkdown(globalEditor.innerHTML)
         var blob = new Blob([output], { type: 'text/markdown;charset=utf-8' })
         // Write changes to file
         var writable = await globalFileHandle.createWritable()
@@ -99,14 +99,14 @@ async function openFile(file, fileName = null) {
     // Switch editor to file
     var converter = new showdown.Converter()
     var html = converter.makeHtml(text)
-    document.getElementById('pluto-editor').innerHTML = html
+    globalEditor.innerHTML = html
     updateWordCount()
 }
 
 document.querySelector('#new-file').addEventListener('click', function () {
     if (globalEditor.textContent != '') {
         if (confirm('Your unsaved changes will be lost. Do you want to continue?')) {
-            editor.innerHTML = ''
+            globalEditor.innerHTML = ''
             updateFileName('text.md')
             globalFileHandle = null
             editor.focus()
@@ -159,7 +159,7 @@ document.querySelector('#save-file-as').addEventListener('click', async function
 document.querySelector('#save-clipboard').addEventListener('click', async function () {
     // Convert to Markdown
     var converter = new showdown.Converter()
-    var output = converter.makeMarkdown(document.getElementById('pluto-editor').innerHTML)
+    var output = converter.makeMarkdown(globalEditor.innerHTML)
     // Write to clipboard
     navigator.clipboard.writeText(output).then(function () {
         alert('The Markdown version has been copied to your clipboard!')
@@ -223,10 +223,10 @@ document.querySelector('#pluto-editor-about').addEventListener('click', function
 
 function updateWordCount() {
     // Update word count
-    var wordCount = document.getElementById('pluto-editor').textContent.trim().split(/\s+/).length
+    var wordCount = globalEditor.textContent.trim().split(/\s+/).length
     document.getElementById('pluto-word-count').innerText = wordCount
     // Update character count
-    var wordCount = document.getElementById('pluto-editor').textContent.trim().length
+    var wordCount = globalEditor.textContent.trim().length
     document.getElementById('pluto-char-count').innerText = wordCount
 }
 
@@ -237,7 +237,7 @@ const observer = new MutationObserver(function (mutations) {
     });
 });
 
-observer.observe(document.getElementById('pluto-editor'), {
+observer.observe(globalEditor, {
     characterData: true,
     subtree: true
 });
