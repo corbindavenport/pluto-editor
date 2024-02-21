@@ -26,9 +26,9 @@
     <div id="pluto-editor-toolbar" class="btn-toolbar rounded shadow bg-light border" role="toolbar">
         <!-- File button -->
         <div class="btn-group" role="group">
-            <button class="btn btn-light dropdown-toggle" type="button" id="fileDropDown" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-secondary rounded" type="button" id="fileDropDown" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-file-earmark"></i>
-                <span id="pluto-file-name">text.md</span>
+                File
             </button>
             <ul class="dropdown-menu" aria-labelledby="fileDropDown">
                 <li><a class="dropdown-item" href="#" id="new-file">New...</a></li>
@@ -55,7 +55,7 @@
         </button>
         <!-- Headers button -->
         <div class="btn-group" role="group">
-            <button class="btn btn-light dropdown-toggle" type="button" id="headerDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-light rounded" type="button" id="headerDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-paragraph"></i>
             </button>
             <ul class="dropdown-menu" aria-labelledby="headerDropdown">
@@ -96,6 +96,10 @@
         </div>
     </div>
 
+    <div id="pluto-name-container" class="container h5" aria-label="File name">
+        <i class="bi bi-file-earmark"></i>
+        <span id="pluto-file-name">text.md</span>
+    </div>
     <div id="pluto-editor" class="container" contenteditable="true">
         <p>The Time Traveller (for so it will be convenient to speak of him) was
             expounding a recondite matter to us. His pale grey eyes shone and

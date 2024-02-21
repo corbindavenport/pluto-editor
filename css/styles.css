@@ -1,20 +1,16 @@
  /* TODO: Add display:block and text-overflow on all changing text values in toolbar */
 
-body {
-    overscroll-behavior: none;
-}
-
 #pluto-editor-toolbar {
-    position: sticky;
-    top: 1rem;
+    position: fixed;
+    bottom: 1rem;
     left: 0;
     margin: 1rem 2rem;
     text-align: center;
     z-index: 1000;
 }
 
-#pluto-editor-toolbar #pluto-file-name {
-    max-width: 80px;
+#pluto-name-container {
+    padding-top: 3rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -23,19 +19,26 @@ body {
 #pluto-editor {
     outline: none;
     padding-top: 2rem;
-    padding-bottom: 2rem;
+    padding-bottom: 6rem;
 }
 
+/* Small screen layout */
 @media (max-width: 575.98px) {
-    #pluto-editor-toolbar {
-        top: 0.25rem;
-        margin: 0.25rem;
-    }
-}
 
-@media all and (display-mode: standalone) {
-    #pluto-editor-toolbar {
-        top: 0 !important;
-        margin-top: 0 !important;
+    #pluto-editor,
+    #pluto-name-container {
+        padding-top: 1.5rem;
     }
+
+    #pluto-editor-toolbar {
+        width: 100%;
+        bottom: 0 !important;
+        margin: 0 !important;
+        padding: 0.25rem !important;
+        border-radius: 0 !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-bottom: none !important;
+    }
+
 }
