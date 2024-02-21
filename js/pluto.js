@@ -27,7 +27,7 @@ var globalFileName = 'text.md'
 
 /* File menu options and functions */
 
-async function openFile(file, fileName=null) {
+async function openFile(file, fileName = null) {
     // Prompt user that they will lose changes
     if (globalEditor.textContent != '') {
         if (confirm('Your unsaved changes will be lost. Do you want to continue?')) {
@@ -224,10 +224,17 @@ function updateWordCount() {
     document.getElementById('pluto-char-count').innerText = wordCount
 }
 
-document.getElementById('pluto-editor').addEventListener('DOMCharacterDataModified', function () {
-    updateWordCount()
-    updateFileName(globalFileName, new Boolean(true))
-})
+const observer = new MutationObserver(function (mutations) {
+    mutations.forEach(function (mutation) {
+        updateWordCount();
+        updateFileName(globalFileName, new Boolean(true));
+    });
+});
+
+observer.observe(document.getElementById('pluto-editor'), {
+    characterData: true,
+    subtree: true
+});
 
 updateWordCount()
 
