@@ -27,6 +27,50 @@ var globalFileName = 'text.md'
 
 /* File menu options and functions */
 
+async function saveFile(fileSaveAs = false) {
+    // Generate Markdown
+    var converter = new showdown.Converter()
+    var output = converter.makeMarkdown(document.getElementById('pluto-editor').innerHTML)
+    var blob = new Blob([output], { type: 'text/markdown;charset=utf-8' })
+    if (('showDirectoryPicker' in window) && (globalFileHandle != null) && (fileSaveAs === false)) {
+        // Update file with File Access API 
+        var writable = await globalFileHandle.createWritable()
+        await writable.write(blob)
+        await writable.close()
+        updateFileName(globalFileName)
+    } else if (('showDirectoryPicker' in window) && ((globalFileHandle === null) || (fileSaveAs === true))) {
+        // Create a new file with File Access API
+        const options = {
+            types: [
+                {
+                    description: 'Markdown file',
+                    accept: {
+                        'text/markdown': ['.md']
+                    }
+                }
+            ]
+        }
+        // Change file in editor to new file
+        globalFileHandle = await window.showSaveFilePicker(options)
+        updateFileName(globalFileHandle.name)
+        // Convert to Markdown
+        var converter = new showdown.Converter()
+        var output = converter.makeMarkdown(document.getElementById('pluto-editor').innerHTML)
+        var blob = new Blob([output], { type: 'text/markdown;charset=utf-8' })
+        // Write changes to file
+        var writable = await globalFileHandle.createWritable()
+        await writable.write(blob)
+        await writable.close()
+    } else {
+        // Save file without File Access API
+        var downloadName = prompt('Your browser does not support the File Access API. Your changes will be saved as a new file in your Downloads folder.\n\nSave as:', 'text.md');
+        if (downloadName != null) {
+            saveAs(blob, downloadName)
+            updateFileName(downloadName)
+        }
+    }
+}
+
 async function openFile(file, fileName = null) {
     // Prompt user that they will lose changes
     if (globalEditor.textContent != '') {
@@ -104,50 +148,12 @@ document.querySelector('#open-clipboard').addEventListener('click', async functi
     openFile(clipText)
 })
 
-document.querySelector('#save-file').addEventListener('click', async function () {
-    // Generate Markdown
-    var converter = new showdown.Converter()
-    var output = converter.makeMarkdown(document.getElementById('pluto-editor').innerHTML)
-    var blob = new Blob([output], { type: 'text/markdown;charset=utf-8' })
-    if (('showDirectoryPicker' in window) && (globalFileHandle != null)) {
-        // Save file with File Access API 
-        var writable = await globalFileHandle.createWritable()
-        await writable.write(blob)
-        await writable.close()
-        updateFileName(globalFileName)
-    } else {
-        // Save file without File Access API
-        if (!('showDirectoryPicker' in window)) {
-            alert('Your browser does not support the File Access API, so your changes will be saved as a new file in your Downloads folder.')
-        }
-        saveAs(blob, globalFileName)
-        updateFileName(globalFileName)
-    }
+document.querySelector('#save-file').addEventListener('click', function () {
+    saveFile();
 })
 
 document.querySelector('#save-file-as').addEventListener('click', async function () {
-    // This option is only visible to browsers with the File Access API, so we don't need a fallback
-    const options = {
-        types: [
-            {
-                description: 'Markdown file',
-                accept: {
-                    'text/markdown': ['.md']
-                }
-            }
-        ]
-    }
-    // Change file in editor to new file
-    globalFileHandle = await window.showSaveFilePicker(options)
-    updateFileName(globalFileHandle.name)
-    // Convert to Markdown
-    var converter = new showdown.Converter()
-    var output = converter.makeMarkdown(document.getElementById('pluto-editor').innerHTML)
-    var blob = new Blob([output], { type: 'text/markdown;charset=utf-8' })
-    // Write changes to file
-    var writable = await globalFileHandle.createWritable()
-    await writable.write(blob)
-    await writable.close()
+    saveFile(true);
 })
 
 document.querySelector('#save-clipboard').addEventListener('click', async function () {
