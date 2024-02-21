@@ -16,18 +16,19 @@
     <meta name="color-scheme" content="dark light">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link href="css/styles.css" rel="stylesheet">
-    <link href="css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
 </head>
 
 <body>
 
-    <div class="container-fluid pluto-top-bar border-bottom">
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" id="fileDropDown" data-bs-toggle="dropdown" aria-expanded="false">
-                File
+    <div id="pluto-editor-toolbar" class="btn-toolbar rounded shadow bg-light border" role="toolbar">
+        <!-- File button -->
+        <div class="btn-group" role="group">
+            <button class="btn btn-light dropdown-toggle" type="button" id="fileDropDown" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-file-earmark"></i>
+                <span id="pluto-file-name">text.md</span>
             </button>
             <ul class="dropdown-menu" aria-labelledby="fileDropDown">
                 <li><a class="dropdown-item" href="#" id="new-file">New...</a></li>
@@ -45,58 +46,54 @@
             </ul>
         </div>
         <!-- Bold button -->
-        <button class="btn btn-secondary" id="pluto-editor-bold" aria-label="Bold">
+        <button class="btn btn-light" id="pluto-editor-bold" aria-label="Bold">
             <i class="bi bi-type-bold"></i>
         </button>
         <!-- Italic button -->
-        <button class="btn btn-secondary" id="pluto-editor-italic" aria-label="Italic">
+        <button class="btn btn-light" id="pluto-editor-italic" aria-label="Italic">
             <i class="bi bi-type-italic"></i>
         </button>
-        <!-- Headers dropdown -->
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="headerDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        <!-- Headers button -->
+        <div class="btn-group" role="group">
+            <button class="btn btn-light dropdown-toggle" type="button" id="headerDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-paragraph"></i>
             </button>
             <ul class="dropdown-menu" aria-labelledby="headerDropdown">
                 <li><a class="dropdown-item pluto-editor-header-btn" data-size="1">
-                    <h1>Header 1</h1>
-                </a></li>
+                        <h1>Header 1</h1>
+                    </a></li>
                 <li><a class="dropdown-item pluto-editor-header-btn" data-size="2">
-                    <h2>Header 2</h2>
-                </a></li>
+                        <h2>Header 2</h2>
+                    </a></li>
                 <li><a class="dropdown-item pluto-editor-header-btn" data-size="3">
-                    <h3>Header 3</h3>
-                </a></li>
+                        <h3>Header 3</h3>
+                    </a></li>
                 <li><a class="dropdown-item pluto-editor-header-btn" data-size="4">
-                    <h4>Header 4</h4>
-                </a></li>
+                        <h4>Header 4</h4>
+                    </a></li>
                 <li><a class="dropdown-item pluto-editor-header-btn" data-size="5">
-                    <h5>Header 5</h5>
-                </a></li>
+                        <h5>Header 5</h5>
+                    </a></li>
                 <li><a class="dropdown-item pluto-editor-header-btn" data-size="6">
-                    <h6>Header 6</h6>
-                </a></li>
+                        <h6>Header 6</h6>
+                    </a></li>
                 <li><a class="dropdown-item" id="pluto-editor-paragraph-btn">
-                    Paragraph (Default)
-                </a></li>
+                        Paragraph (Default)
+                    </a></li>
             </ul>
         </div>
         <!-- About button -->
-        <button class="btn btn-info" id="pluto-editor-about">About</button>
-    </div>
-
-    <div class="container-fluid fixed-bottom pluto-bottom-bar border-top small">
-            <div class="row">
-                <div class="col-12 col-sm-6 text-bold">
-                    <b><span id="pluto-file-name">text.md</span></b>
-                </div>
-                <div class="col-6 col-sm-3 text-center">
-                    <b>Words:</b> <span id="pluto-word-count"></span>
-                </div>
-                <div class="col-6 col-sm-3 text-center">
-                    <b>Characters:</b> <span id="pluto-char-count"></span>
-                </div>
-            </div>
+        <button class="btn btn-light" aria-label="Help" id="pluto-editor-about">
+            <i class="bi bi-question-lg"></i>
+        </button>
+        <!-- Word count -->
+        <div class="input-group-text border-0 text-body-secondary">
+            <span id="pluto-word-count" class="me-1"></span>words
+        </div>
+        <!-- Character count -->
+        <div class="input-group-text border-0 text-body-secondary">
+            <span id="pluto-char-count" class="me-1"></span>chars
+        </div>
     </div>
 
     <div id="pluto-editor" class="container" contenteditable="true">
@@ -154,9 +151,9 @@
         <p>Text from <i>The Time Machine</i></p>
     </div>
 
-    <input type="file" id="import" accept="text/markdown, .md">
+    <input type="file" id="import" class="d-none" accept="text/markdown, .md">
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js" integrity="sha512-L03kznCrNOfVxOUovR6ESfCz9Gfny7gihUX/huVbQB9zjODtYpxaVtIaAkpetoiyV2eqWbvxMH9fiSv5enX7bw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
     <script src="js/pluto.js"></script>
