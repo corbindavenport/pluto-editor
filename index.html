@@ -26,7 +26,7 @@
     <div id="pluto-editor-toolbar" class="btn-toolbar rounded shadow bg-body border user-select-none" role="toolbar">
         <!-- File button -->
         <div class="btn-group" role="group">
-            <button class="btn btn-outline-primary rounded" type="button" id="fileDropDown" data-bs-toggle="dropdown" aria-expanded="false" title="File options">
+            <button class="btn btn-lg btn-outline-primary rounded" type="button" id="fileDropDown" data-bs-toggle="dropdown" aria-expanded="false" title="File options">
                 <i class="bi bi-file-earmark-text"></i>
             </button>
             <ul class="dropdown-menu" aria-labelledby="fileDropDown">
@@ -45,16 +45,16 @@
             </ul>
         </div>
         <!-- Bold button -->
-        <button class="btn btn-outline-secondary" id="pluto-editor-bold" title="Bold">
+        <button class="btn btn-lg btn-outline-secondary" id="pluto-editor-bold" title="Bold">
             <i class="bi bi-type-bold"></i>
         </button>
         <!-- Italic button -->
-        <button class="btn btn-outline-secondary" id="pluto-editor-italic" title="Italic">
+        <button class="btn btn-lg btn-outline-secondary" id="pluto-editor-italic" title="Italic">
             <i class="bi bi-type-italic"></i>
         </button>
         <!-- Headers button -->
         <div class="btn-group" role="group">
-            <button class="btn btn-outline-secondary rounded" type="button" id="headerDropdown" data-bs-toggle="dropdown" aria-expanded="false" title="Paragraph options">
+            <button class="btn btn-lg btn-outline-secondary rounded" type="button" id="headerDropdown" data-bs-toggle="dropdown" aria-expanded="false" title="Paragraph options">
                 <i class="bi bi-paragraph"></i>
             </button>
             <ul class="dropdown-menu" aria-labelledby="headerDropdown">
@@ -82,22 +82,21 @@
             </ul>
         </div>
         <!-- About button -->
-        <button class="btn btn-outline-secondary" title="Help" id="pluto-editor-about">
+        <button class="btn btn-lg btn-outline-secondary" title="Help" id="pluto-editor-about">
             <i class="bi bi-question-lg"></i>
         </button>
-        <!-- Word count -->
-        <div class="input-group-text border-0 bg-body text-body-secondary">
-            <span id="pluto-word-count" class="me-1"></span>words
-        </div>
-        <!-- Character count -->
-        <div class="input-group-text border-0 bg-body text-body-secondary">
-            <span id="pluto-char-count" class="me-1"></span>chars
-        </div>
     </div>
 
-    <div id="pluto-name-container" class="container h5 user-select-none" aria-label="File name">
-        <span id="pluto-file-name">text.md</span>
+    <div id="pluto-name-container" class="container user-select-none" aria-label="File name">
+        <div class="h4">
+            <i class="bi bi-file-earmark-text"></i>
+            <span id="pluto-file-name">text.md</span>
+        </div>
+        <div class="text-sm text-secondary">
+            <span id="pluto-word-count" class="me-1"></span>words,  <span id="pluto-char-count" class="me-1"></span>characters
+        </div>
     </div>
+    
     <div id="pluto-editor" class="container" contenteditable="true">
         <p>The Time Traveller (for so it will be convenient to speak of him) was
             expounding a recondite matter to us. His pale grey eyes shone and
