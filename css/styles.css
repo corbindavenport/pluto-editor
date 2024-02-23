@@ -9,6 +9,10 @@
     z-index: 1000;
 }
 
+#pluto-editor-toolbar .btn {
+    border: none;
+}
+
 #pluto-name-container {
     padding-top: 3rem;
     white-space: nowrap;
