@@ -125,6 +125,7 @@ document.querySelector('#new-file').addEventListener('click', function () {
         if (confirm('Your unsaved changes will be lost. Do you want to continue?')) {
             globalEditor.innerHTML = ''
             updateFileName('text.md')
+            updateWordCount();
             globalFileHandle = null
             editor.focus()
         }
