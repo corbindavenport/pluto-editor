@@ -15,6 +15,10 @@
 
 #pluto-name-container {
     padding-top: 3rem;
+}
+
+#pluto-name-container .h4 {
+    width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -24,6 +28,14 @@
     outline: none;
     padding-top: 2rem;
     padding-bottom: 6rem;
+}
+
+#pluto-markdown-textarea {
+    height: 100%;
+    width: 100%;
+    resize: none;
+    padding: 1rem;
+    font-family: Menlo,Consolas,Monaco,Liberation Mono,Lucida Console,monospace;
 }
 
 /* Small screen layout */

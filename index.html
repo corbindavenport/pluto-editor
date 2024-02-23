@@ -12,7 +12,7 @@
     <link rel="manifest" href="site.webmanifest">
     <link rel="shortcut icon" href="favicon.ico">
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#262626">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#212529">
     <meta name="color-scheme" content="dark light">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -23,7 +23,7 @@
 
 <body>
 
-    <div id="pluto-editor-toolbar" class="btn-toolbar rounded shadow bg-body border user-select-none" role="toolbar">
+    <div id="pluto-editor-toolbar" class="btn-toolbar rounded shadow-lg bg-body border user-select-none" role="toolbar">
         <!-- File button -->
         <div class="btn-group" role="group">
             <button class="btn btn-lg btn-outline-primary rounded" type="button" id="fileDropDown" data-bs-toggle="dropdown" aria-expanded="false" title="File options">
@@ -44,6 +44,10 @@
                 <li><a class="dropdown-item" href="#" id="save-clipboard">Save to Clipboard</a></li>
             </ul>
         </div>
+        <!-- View mode button -->
+        <button class="btn btn-lg btn-outline-secondary" id="pluto-editor-mode-btn" data-bs-toggle="modal" data-bs-target="#pluto-markdown-modal" title="Markdown code mode">
+            <i class="bi bi-code-slash"></i>
+        </button>
         <!-- Bold button -->
         <button class="btn btn-lg btn-outline-secondary" id="pluto-editor-bold" title="Bold">
             <i class="bi bi-type-bold"></i>
@@ -93,10 +97,11 @@
             <span id="pluto-file-name">text.md</span>
         </div>
         <div class="text-sm text-secondary">
-            <span id="pluto-word-count" class="me-1"></span>words,  <span id="pluto-char-count" class="me-1"></span>characters
+            <span id="pluto-word-count" class="me-1"></span>words, <span id="pluto-char-count" class="me-1"></span>characters
         </div>
     </div>
-    
+
+    <!-- Visual editor area -->
     <div id="pluto-editor" class="container" contenteditable="true">
         <p>The Time Traveller (for so it will be convenient to speak of him) was
             expounding a recondite matter to us. His pale grey eyes shone and
@@ -152,6 +157,22 @@
         <p>Text from <i>The Time Machine</i></p>
     </div>
 
+    <!-- Modal for Markdown mode -->
+    <div class="modal" id="pluto-markdown-modal" tabindex="-1">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Markdown mode</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <textarea title="Markdown code" class="form-control border-0" id="pluto-markdown-textarea">This will show the Markdown version :)</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- File import for browsers without File Access API support -->
     <input type="file" id="import" class="d-none" accept="text/markdown, .md">
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
