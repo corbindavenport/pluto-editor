@@ -17,12 +17,10 @@ applyTheme();
 /* Global variables */
 
 var globalEditor = document.getElementById('pluto-editor')
-
 var globalFileHandle = null
-
 var globalFileName = 'text.md'
-
 const markdownModal = document.getElementById('pluto-markdown-modal')
+const markdownModalInstance = new bootstrap.Modal(markdownModal)
 
 // Text selection 
 function getSelectedText() {
@@ -43,6 +41,38 @@ function getSelectedText() {
     }
     return data
 }
+
+// Function for editing links
+function editLink() {
+    var text = getSelectedText()
+    if (text.parentNode.tagName === 'A') {
+        // Delete existing link
+        if (confirm('Delete this link?')) {
+            var newText = document.createTextNode(text.parentNode.innerText)
+            text.parentNode.parentNode.replaceChild(newText, text.parentNode)
+        }
+    } else {
+        // Create new link
+        var linkPrompt = prompt('URL:')
+        if (linkPrompt != null) {
+            document.execCommand('createLink', false, linkPrompt)
+        }
+    }
+}
+
+// Keyboard shortcuts
+// TODO: document these in UI and readme, add file operations
+document.addEventListener('keydown', function (event) {
+    if ((event.ctrlKey || event.metaKey) && event.keyCode === 75) {
+        // Ctrl+K / Cmd+K for editing links
+        event.preventDefault()
+        editLink()
+    } else if ((event.ctrlKey || event.metaKey) && event.keyCode === 85) {
+        // Ctrl+U / Cmd+U for toggling Markdown view
+        event.preventDefault()
+        markdownModalInstance.toggle()
+    }
+})
 
 /* File menu options and functions */
 
@@ -200,7 +230,9 @@ document.querySelector('#import').addEventListener('change', function (el) {
     reader.readAsText(file)
 })
 
-/* Markdown editor functions */
+/*
+    Markdown editor functions
+*/
 
 // Load markdown code on modal open
 markdownModal.addEventListener('show.bs.modal', function () {
@@ -208,6 +240,11 @@ markdownModal.addEventListener('show.bs.modal', function () {
     var converter = new showdown.Converter()
     var output = converter.makeMarkdown(globalEditor.innerHTML)
     markdownEditor.value = output
+})
+
+// Focus markdown editor when modal is fully visible
+markdownModal.addEventListener('shown.bs.modal', function () {
+    var markdownEditor = document.getElementById('pluto-markdown-textarea')
     markdownEditor.focus()
 })
 
@@ -218,12 +255,20 @@ markdownModal.addEventListener('hide.bs.modal', function () {
     // Convert markdown in modal to HTML in main editor
     var output = converter.makeHtml(markdownEditor.value)
     globalEditor.innerHTML = output
+    globalEditor.focus()
     // Reset values
     markdownEditor.value = ''
     updateWordCount()
 })
 
-/* Editor buttons */
+// Focus main editor when modal is fully visible
+markdownModal.addEventListener('hidden.bs.modal', function () {
+    globalEditor.focus()
+})
+
+/*
+    Toolbar buttons
+*/
 
 document.querySelector('#pluto-editor-bold').addEventListener('click', function () {
     document.execCommand('bold')
@@ -250,6 +295,10 @@ document.querySelector('#pluto-editor-paragraph-btn').addEventListener('click', 
     var pEl = document.createElement('p')
     pEl.innerText = text.parentNode.innerText
     text.parentNode.parentNode.replaceChild(pEl, text.parentNode)
+})
+
+document.querySelector('#pluto-editor-link').addEventListener('click', function () {
+    editLink()
 })
 
 document.querySelectorAll('button, .dropdown-item').forEach(function (el) {
