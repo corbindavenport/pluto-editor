@@ -206,16 +206,32 @@ document.querySelector('#save-file-as').addEventListener('click', async function
     saveFile(true);
 })
 
-document.querySelector('#save-clipboard').addEventListener('click', async function () {
+document.querySelector('#share-file').addEventListener('click', async function () {
     // Convert to Markdown
     var converter = new showdown.Converter()
     var output = converter.makeMarkdown(globalEditor.innerHTML)
-    // Write to clipboard
-    navigator.clipboard.writeText(output).then(function () {
-        alert('The Markdown version has been copied to your clipboard!')
-    }, function () {
-        alert('There was an error, sorry!')
-    })
+    var blob = new Blob([output], { type: 'text/markdown' })
+    console.log(blob)
+    // Create data object
+    const data = {
+        files: [
+            new File([blob], 'text.md', {
+                type: blob.type,
+            }),
+        ],
+        title: 'Text from Pluto Editor'
+    }
+    // Share data object
+    if (navigator.canShare(data)) {
+        await navigator.share(data)
+    } else {
+        // Write to clipboard instead
+        navigator.clipboard.writeText(output).then(function () {
+            alert('The Markdown version has been copied to your clipboard.')
+        }, function () {
+            alert('There was an error, sorry!')
+        })
+    }
 })
 
 document.querySelector('#import').addEventListener('change', function (el) {
