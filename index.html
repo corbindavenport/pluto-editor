@@ -23,7 +23,7 @@
 
 <body>
 
-    <div id="pluto-editor-toolbar" class="btn-toolbar rounded shadow-lg bg-body border user-select-none" role="toolbar">
+    <div id="pluto-editor-toolbar" class="btn-toolbar rounded shadow bg-body border user-select-none" role="toolbar">
         <!-- File button -->
         <div class="btn-group" role="group">
             <button class="btn btn-lg btn-outline-primary rounded" type="button" id="fileDropDown" data-bs-toggle="dropdown" aria-expanded="false" title="File options">
@@ -44,7 +44,7 @@
                 <li><a class="dropdown-item" href="#" id="save-clipboard">Save to Clipboard</a></li>
             </ul>
         </div>
-        <!-- View mode button -->
+        <!-- Code button -->
         <button class="btn btn-lg btn-outline-secondary" id="pluto-editor-mode-btn" data-bs-toggle="modal" data-bs-target="#pluto-markdown-modal" title="Markdown code mode">
             <i class="bi bi-code-slash"></i>
         </button>
@@ -162,11 +162,14 @@
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Markdown mode</h5>
+                    <h5 class="modal-title">
+                        <i class="bi bi-code-slash me-2"></i>
+                        Markdown mode
+                    </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-0">
-                    <textarea title="Markdown code" class="form-control border-0" id="pluto-markdown-textarea">This will show the Markdown version :)</textarea>
+                    <textarea title="Markdown code" class="form-control border-0" id="pluto-markdown-textarea"></textarea>
                 </div>
             </div>
         </div>

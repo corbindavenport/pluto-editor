@@ -22,6 +22,8 @@ var globalFileHandle = null
 
 var globalFileName = 'text.md'
 
+const markdownModal = document.getElementById('pluto-markdown-modal')
+
 // Text selection 
 function getSelectedText() {
     // Get text selection
@@ -196,6 +198,29 @@ document.querySelector('#import').addEventListener('change', function (el) {
         alert('Error: ' + event)
     }
     reader.readAsText(file)
+})
+
+/* Markdown editor functions */
+
+// Load markdown code on modal open
+markdownModal.addEventListener('show.bs.modal', function () {
+    var markdownEditor = document.getElementById('pluto-markdown-textarea')
+    var converter = new showdown.Converter()
+    var output = converter.makeMarkdown(globalEditor.innerHTML)
+    markdownEditor.value = output
+    markdownEditor.focus()
+})
+
+// Save markdown code on modal close
+markdownModal.addEventListener('hide.bs.modal', function () {
+    var markdownEditor = document.getElementById('pluto-markdown-textarea')
+    var converter = new showdown.Converter()
+    // Convert markdown in modal to HTML in main editor
+    var output = converter.makeHtml(markdownEditor.value)
+    globalEditor.innerHTML = output
+    // Reset values
+    markdownEditor.value = ''
+    updateWordCount()
 })
 
 /* Editor buttons */
