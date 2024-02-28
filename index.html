@@ -23,6 +23,11 @@
 
 <body>
 
+    <div class="alert alert-danger alert-dismissible fade show rounded-0" role="alert">
+        Pluto Editor is still beta-quality software. <strong>Do not edit important documents without a backup!</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+
     <div id="pluto-editor-toolbar" class="btn-toolbar rounded shadow bg-body border user-select-none" role="toolbar">
         <!-- File button -->
         <div class="btn-group" role="group">
@@ -62,27 +67,27 @@
                 <i class="bi bi-paragraph"></i>
             </button>
             <ul class="dropdown-menu" aria-labelledby="headerDropdown">
-                <li><a class="dropdown-item pluto-editor-header-btn" data-size="1">
-                        <h1>Header 1</h1>
-                    </a></li>
-                <li><a class="dropdown-item pluto-editor-header-btn" data-size="2">
-                        <h2>Header 2</h2>
-                    </a></li>
-                <li><a class="dropdown-item pluto-editor-header-btn" data-size="3">
-                        <h3>Header 3</h3>
-                    </a></li>
-                <li><a class="dropdown-item pluto-editor-header-btn" data-size="4">
-                        <h4>Header 4</h4>
-                    </a></li>
-                <li><a class="dropdown-item pluto-editor-header-btn" data-size="5">
-                        <h5>Header 5</h5>
-                    </a></li>
-                <li><a class="dropdown-item pluto-editor-header-btn" data-size="6">
-                        <h6>Header 6</h6>
-                    </a></li>
-                <li><a class="dropdown-item" id="pluto-editor-paragraph-btn">
-                        Paragraph (Default)
-                    </a></li>
+                <li class="dropdown-item pluto-editor-header-btn h1" data-size="1" role="button">
+                    Header 1
+                </li>
+                <li class="dropdown-item pluto-editor-header-btn h2" data-size="2" role="button">
+                    Header 2
+                </li>
+                <li class="dropdown-item pluto-editor-header-btn h3" data-size="3" role="button">
+                    Header 3
+                </li>
+                <li class="dropdown-item pluto-editor-header-btn h4" data-size="4" role="button">
+                    Header 4
+                </li>
+                <li class="dropdown-item pluto-editor-header-btn h5" data-size="5" role="button">
+                    Header 5
+                </li>
+                <li class="dropdown-item pluto-editor-header-btn h6" data-size="6" role="button">
+                    Header 6
+                </li>
+                <li class="dropdown-item" id="pluto-editor-paragraph-btn" role="button">
+                    Paragraph (Default)
+                </li>
             </ul>
         </div>
         <!-- Link button -->

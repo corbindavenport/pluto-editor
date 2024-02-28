@@ -258,12 +258,6 @@ markdownModal.addEventListener('show.bs.modal', function () {
     markdownEditor.value = output
 })
 
-// Focus markdown editor when modal is fully visible
-markdownModal.addEventListener('shown.bs.modal', function () {
-    var markdownEditor = document.getElementById('pluto-markdown-textarea')
-    markdownEditor.focus()
-})
-
 // Save markdown code on modal close
 markdownModal.addEventListener('hide.bs.modal', function () {
     var markdownEditor = document.getElementById('pluto-markdown-textarea')
