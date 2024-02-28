@@ -323,6 +323,14 @@ document.querySelectorAll('button, .dropdown-item').forEach(function (el) {
     }, false)
 })
 
+document.querySelector('#pluto-editor-undo').addEventListener('click', function () {
+    document.execCommand('undo')
+})
+
+document.querySelector('#pluto-editor-redo').addEventListener('click', function () {
+    document.execCommand('redo')
+})
+
 document.querySelector('#pluto-editor-about').addEventListener('click', function () {
     window.open('https://github.com/corbindavenport/pluto-editor', '_blank')
 })
