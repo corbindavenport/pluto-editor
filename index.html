@@ -17,7 +17,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="css/styles.css" rel="stylesheet">
 </head>
 
@@ -30,25 +30,9 @@
 
     <div id="pluto-editor-toolbar" class="btn-toolbar rounded shadow bg-body border user-select-none" role="toolbar">
         <!-- File button -->
-        <div class="btn-group" role="group">
-            <button class="btn btn-lg btn-outline-primary rounded" type="button" id="fileDropDown" data-bs-toggle="dropdown" aria-expanded="false" title="File options">
-                <i class="bi bi-file-earmark-text"></i>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="fileDropDown">
-                <li><a class="dropdown-item" href="#" id="new-file">New...</a></li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item" href="#" id="open-file">Open...</a></li>
-                <li><a class="dropdown-item" href="#" id="open-clipboard">Open from Clipboard</a></li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item" href="#" id="save-file">Save</a></li>
-                <li><a class="dropdown-item" href="#" id="save-file-as" style="display: none;">Save As...</a></li>
-                <li><a class="dropdown-item" href="#" id="share-file">Share...</a></li>
-            </ul>
-        </div>
+        <button class="btn btn-lg btn-outline-primary" data-bs-toggle="modal" data-bs-target="#pluto-file-modal" title="Save, Open, and more...">
+            <i class="bi bi-file-earmark-text"></i>
+        </button>
         <!-- Code button -->
         <button class="btn btn-lg btn-outline-secondary" id="pluto-editor-mode-btn" data-bs-toggle="modal" data-bs-target="#pluto-markdown-modal" title="Edit Markdown code">
             <i class="bi bi-code-slash"></i>
@@ -187,6 +171,73 @@
                 </div>
                 <div class="modal-body p-0">
                     <textarea title="Markdown code" class="form-control border-0 rounded-0" id="pluto-markdown-textarea"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for File menu -->
+    <div class="modal" id="pluto-file-modal" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">
+                        <i class="bi bi-file-earmark-text"></i>
+                        File options
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pt-0">
+                    <!-- New file options -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="h5 mt-2 mb-2">Start</div>
+                        </div>
+                        <div class="col-12">
+                            <button type="button" class="btn btn-outline-primary w-100 mt-2 mb-2" id="pluto-new-file-btn" data-bs-dismiss="modal" data-bs-target="#pluto-file-modal">
+                                <i class="bi bi-file-earmark-plus me-2"></i>
+                                New document
+                            </button>
+                        </div>
+                        <!-- Open file options -->
+                        <div class="col-12">
+                            <div class="h5 mt-2 mb-2">Open</div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <button type="button" class="btn btn-outline-primary w-100 mt-2 mb-2" id="pluto-open-file-btn" data-bs-dismiss="modal" data-bs-target="#pluto-file-modal">
+                                <i class="bi bi-folder2-open me-2"></i>
+                                Open from files
+                            </button>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <button type="button" class="btn btn-outline-primary w-100 mt-2 mb-2" id="pluto-open-clipboard-btn" data-bs-dismiss="modal" data-bs-target="#pluto-file-modal">
+                                <i class="bi bi-clipboard-plus me-2"></i>
+                                Open from Clipboard
+                            </button>
+                        </div>
+                        <!-- Save file actions -->
+                        <div class="col-12">
+                            <div class="h5 mt-2 mb-2">Save</div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <button type="button" class="btn btn-outline-primary w-100 mt-2 mb-2" id="pluto-save-file-btn" data-bs-dismiss="modal" data-bs-target="#pluto-file-modal">
+                                <i class="bi bi-floppy me-2"></i>
+                                Save to File
+                            </button>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <button type="button" class="btn btn-outline-primary w-100 mt-2 mb-2" id="pluto-save-file-as-btn" data-bs-dismiss="modal" data-bs-target="#pluto-file-modal">
+                                <i class="bi bi-floppy me-2"></i>
+                                Save as New File
+                            </button>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <button type="button" class="btn btn-outline-primary w-100 mt-2 mb-2" id="pluto-share-file" data-bs-dismiss="modal" data-bs-target="#pluto-file-modal">
+                                <i class="bi bi-share-fill me-2"></i>
+                                Share
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

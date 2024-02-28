@@ -21,6 +21,8 @@ var globalFileHandle = null
 var globalFileName = 'text.md'
 const markdownModal = document.getElementById('pluto-markdown-modal')
 const markdownModalInstance = new bootstrap.Modal(markdownModal)
+const fileModal = document.getElementById('pluto-file-modal')
+const fileModalInstance = new bootstrap.Modal(fileModal)
 
 // Text selection 
 function getSelectedText() {
@@ -152,23 +154,23 @@ async function openFile(file, fileName = null) {
     updateWordCount()
 }
 
-document.querySelector('#new-file').addEventListener('click', function () {
+document.querySelector('#pluto-new-file-btn').addEventListener('click', function () {
     if (globalEditor.textContent != '') {
         if (confirm('Your unsaved changes will be lost. Do you want to continue?')) {
             globalEditor.innerHTML = ''
             updateFileName('text.md')
             updateWordCount();
             globalFileHandle = null
-            editor.focus()
+            globalEditor.focus()
         }
     }
 })
 
 if ('showDirectoryPicker' in window) {
-    document.getElementById('save-file-as').style.display = 'block'
+    document.getElementById('pluto-save-file-as-btn').style.display = 'block'
 }
 
-document.querySelector('#open-file').addEventListener('click', async function () {
+document.querySelector('#pluto-open-file-btn').addEventListener('click', async function () {
     if ('showDirectoryPicker' in window) {
         // Pick file
         var pickerOpts = {
@@ -193,20 +195,20 @@ document.querySelector('#open-file').addEventListener('click', async function ()
     }
 })
 
-document.querySelector('#open-clipboard').addEventListener('click', async function () {
+document.querySelector('#pluto-open-clipboard-btn').addEventListener('click', async function () {
     var clipText = await navigator.clipboard.readText()
     openFile(clipText)
 })
 
-document.querySelector('#save-file').addEventListener('click', function () {
+document.querySelector('#pluto-save-file-btn').addEventListener('click', function () {
     saveFile();
 })
 
-document.querySelector('#save-file-as').addEventListener('click', async function () {
+document.querySelector('#pluto-save-file-as-btn').addEventListener('click', async function () {
     saveFile(true);
 })
 
-document.querySelector('#share-file').addEventListener('click', async function () {
+document.querySelector('#pluto-share-file').addEventListener('click', async function () {
     // Convert to Markdown
     var converter = new showdown.Converter()
     var output = converter.makeMarkdown(globalEditor.innerHTML)

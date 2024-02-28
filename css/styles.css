@@ -39,7 +39,7 @@
 }
 
 /* Small screen layout */
-@media (max-width: 575.98px) {
+@media (max-width: 575.98px), (max-height: 500px) {
 
     #pluto-editor,
     #pluto-name-container {
@@ -48,13 +48,18 @@
 
     #pluto-editor-toolbar {
         width: 100%;
-        bottom: 0 !important;
-        margin: 0 !important;
-        padding: 0 !important;
+        bottom: 0;
+        margin: 0;
+        padding: 0;
+        padding-bottom: calc(0px + env(safe-area-inset-bottom)); /* Don't let home button on mobile devices cover up toolbar */
         border-radius: 0 !important;
         border-left: none !important;
         border-right: none !important;
         border-bottom: none !important;
+    }
+
+    #pluto-editor {
+        padding-bottom: calc(6em + env(safe-area-inset-bottom)); /* Don't let home button on mobile devices cover up toolbar */
     }
 
 }
